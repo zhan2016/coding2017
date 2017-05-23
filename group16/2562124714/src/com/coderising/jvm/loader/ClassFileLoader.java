@@ -1,5 +1,3 @@
-package com.coderising.jvm.loader;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +7,8 @@ import java.util.List;
 public class ClassFileLoader {
 
 	private List<String> clzPaths = new ArrayList<String>();
-	
+
+
 	public byte[] readBinaryCode(String className) {
 		//找到文件的具体路径
 		if(clzPaths.size() == 0 || className == "")
@@ -43,6 +42,7 @@ public class ClassFileLoader {
 		}
 
 		File file = new File(MainPath + FileName);
+		//其实可以直接用工具类库 byte[] buffer = IOUtils.toByteArray(new FileInputStream(file));
 		InputStream is = null;
 		byte[] buffer = new byte[(int)file.length()];
 		try
@@ -108,8 +108,15 @@ public class ClassFileLoader {
 		return ClassPath;
 	}
 
-	
 
-	
-
+	public ClassFile loadClass(String className) {
+		byte[] codes = readBinaryCode(className);
+		if (codes == null)
+		{
+			return null;
+		}
+		ClassFileParser parser = new ClassFileParser();
+		ClassFile clzf = parser.Parser(codes);
+		return clzf;
+	}
 }
