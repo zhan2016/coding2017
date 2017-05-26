@@ -67,5 +67,13 @@ public class Field {
     private ConstantPool pool;
     private ConstantValueInfo constantvalueinfos;
 
+    public String toString()
+    {
+        String fieldName = ((UTF8Info)this.pool.constantInfos.get(this.nameIndex)).getValue();
+        String fieldDescriptor = ((UTF8Info)this.pool.constantInfos.get(this.descriptorIndex)).getValue();
+
+        return new String(fieldName + ":" + fieldDescriptor);
+    }
+
 
 }

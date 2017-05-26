@@ -58,6 +58,7 @@ public class Method {
             {
                 ite.back2byte();
                 m.codeAttr = CodeAttr.parase(m.pool,ite );
+                break;
             }
 
 
@@ -78,4 +79,10 @@ public class Method {
     }
 
     private CodeAttr codeAttr;
+
+    public ByteCodeCommand[] getCmds() {
+        return this.codeAttr.getCmds();
+    }
+
+
 }

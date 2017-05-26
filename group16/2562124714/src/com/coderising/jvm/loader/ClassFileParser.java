@@ -39,11 +39,25 @@ public class ClassFileParser
         paraseInterface(ite);
 
         //field atrribute paraser. Add a reference to constant pool.
-        FieldInfoPool fieldpool = parseFieldPool(ite,pool);
-       // fieldpool = parseFieldPool(ite);
+        parseFieldPool(classFile,ite);
+
+        //method attribute paraser.
+        paraserMethodPool(classFile,ite);
 
         return classFile;
     }
+
+    private void paraserMethodPool(ClassFile classFile, ByteCodeIterator ite) {
+        int MethodAttrCount = ite.nextU2ToInt();
+
+        for(int i = 0; i < MethodAttrCount; i++)
+        {
+            Method m = Method.parase(classFile,ite);
+            classFile.AddMethod(m);
+
+        }
+    }
+
 
     private void paraseInterface(ByteCodeIterator ite) {
       int interfaceCount =  ite.nextU2ToInt();
@@ -53,17 +67,15 @@ public class ClassFileParser
 
     }
 
-    private FieldInfoPool parseFieldPool(ByteCodeIterator ite, ConstantPool pool) {
+    private void  parseFieldPool(ClassFile clzfile, ByteCodeIterator ite) {
        int FieldAttrCount = ite.nextU2ToInt();
-       FieldInfoPool FieldAttrPool = new FieldInfoPool();
-       FieldAttrPool.setSize(FieldAttrCount);
 
        for(int i = 0; i < FieldAttrCount; i++)
        {
+           Field f = Field.parase(clzfile,ite);
+           clzfile.AddField(f);
 
        }
-
-       return null;
     }
 
     private int parseAccessFlag(ByteCodeIterator ite) {

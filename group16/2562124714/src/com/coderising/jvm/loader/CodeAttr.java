@@ -32,10 +32,15 @@ public class CodeAttr implements  AttributeInfo{
         return code;
     }
 
+    public ByteCodeCommand[] getCmds()
+    {
+        return this.cmds;
+    }
+
     private int maxlocas;
     private int codeLen;
     private String code;
-
+    private ByteCodeCommand[] cmds;
     private LocalVariableTable localVariableTable;
 
     public LocalVariableTable getLocalVariableTable() {
@@ -67,11 +72,9 @@ public class CodeAttr implements  AttributeInfo{
         codeAttr.maxStack = ite.nextU2ToInt();
         codeAttr.maxlocas = ite.nextU2ToInt();
         codeAttr.codeLen = ite.nextU4ToInt();
-        try {
-            codeAttr.code = new String(ite.getBytes(codeAttr.codeLen), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        codeAttr.pool = pool;
+         codeAttr.code = ite.nextUxToHexString(codeAttr.codeLen);
+        codeAttr.cmds = CommandParser.parser(codeAttr.pool,codeAttr.code);
         int exceptiontable = ite.nextU2ToInt();
         if (exceptiontable > 0)
         {

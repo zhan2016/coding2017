@@ -20,8 +20,12 @@ public class LocalVariableTable {
         for (int i = 0; i < localVariableTable.tableLen; i++)
         {
             localVariableInfo localvariableinfo = new localVariableInfo();
-            localvariableinfo.setStartPc(ite.nextU2ToInt());
-            localvariableinfo.setLength(ite.nextU2ToInt());
+            localvariableinfo.startPc = ite.nextU2ToInt();
+            localvariableinfo.length = ite.nextU2ToInt();
+            localvariableinfo.nameIndex = ite.nextU2ToInt();
+            localvariableinfo.descriptorIndex = ite.nextU2ToInt();
+            localvariableinfo.index = ite.nextU2ToInt();
+            localvariableinfo.setPool(pool);
             localVariableTable.localVariableInfos.add(localvariableinfo);
         }
         return localVariableTable;
